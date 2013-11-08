@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="org.jboss.aerogear.cordova.crypto"
+        version="0.0.1">
+
+  <name>AeroGear Crypto Plugin</name>
+
+  <description>
+    This plugin mimics the api of the aerogear-js crypto functions as close as possible, but delegates the work to the
+    native implementations
+  </description>
+
+  <license>MIT</license>
+
+  <engines>
+    <engine name="cordova" version=">=3.0.0"/>
+  </engines>
+
+  <js-module src="www/aerogear.crypto.js" name="AeroGear.crypto">
+    <clobbers target="AeroGear.crypto"/>
+  </js-module>
+
+  <!-- android -->
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="crypto">
+          <param name="android-package" value="org.jboss.aerogear.cordova.crypto.CryptoPlugin" />
+      </feature>
+    </config-file>
+
+    <source-file src="src/android/org/jboss/aerogear/cordova/crypto/CryptoPlugin.java" target-dir="src/org/jboss/aerogear/cordova/crypto/"/>
+  </platform>
+
+  <!-- ios -->
+  <!-- not yet -->
+</plugin>
