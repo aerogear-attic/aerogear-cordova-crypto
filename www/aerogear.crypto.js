@@ -30,7 +30,7 @@ AeroGear.crypto = {};
  AeroGear.crypto.deriveKey( function(encrypted) { console.log(encrypted) }, errorHandler, 'mypassword' );
  */
 AeroGear.crypto.deriveKey = function( success, failure, password ) {
-    return cordova.exec( success, failure, 'crypto', 'deriveKey', [{password: password}] );
+    return exec( success, failure, 'crypto', 'deriveKey', [{password: password}] );
 };
 // Method to provide symmetric encryption with GCM by default
 /**
@@ -51,7 +51,7 @@ AeroGear.crypto.deriveKey = function( success, failure, password ) {
  AeroGear.crypto.encrypt( function(result) {}, options );
  */
 AeroGear.crypto.encrypt = function( success, options ) {
-    return cordova.exec( success, null, 'crypto', 'encrypt', [options] );
+    return exec( success, null, 'crypto', 'encrypt', [options] );
 };
 
 // Method to provide symmetric decryption with GCM by default
@@ -73,13 +73,13 @@ AeroGear.crypto.encrypt = function( success, options ) {
  AeroGear.crypto.decrypt( function(result) {}, options );
  */
 AeroGear.crypto.decrypt = function( success, options ) {
-    return cordova.exec( success, null, 'crypto', 'decrypt', [options] );
+    return exec( success, null, 'crypto', 'decrypt', [options] );
 };
 
 AeroGear.crypto.KeyPair = function( privateKey, publicKey ) {
 
     if (typeof privateKey == "function")  {
-        cordova.exec(privateKey, null, 'crypto', 'generateKeyPair', []);
+        exec(privateKey, null, 'crypto', 'generateKeyPair', []);
     } else if ( privateKey && publicKey ) {
         this.privateKey = privateKey;
         this.publicKey = publicKey;
