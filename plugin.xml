@@ -38,5 +38,17 @@
   </platform>
 
   <!-- ios -->
-  <!-- not yet -->
+  <platform name="ios">
+    <config-file target="config.xml" parent="/*">
+      <feature name="crypto">
+        <param name="ios-package" value="CryptoPlugin"/>
+      </feature>
+    </config-file>
+
+    <source-file src="src/ios/CryptoPlugin.m"/>
+    <header-file src="src/ios/CryptoPlugin.h"/>
+
+    <asset src="src/ios/Podfile" target="../../Podfile" />
+  </platform>
+
 </plugin>
