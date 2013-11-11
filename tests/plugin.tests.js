@@ -60,18 +60,6 @@ describe('Password based encrytion with GCM', function () {
 });    
 
 describe('Symmetric encrytion with GCM', function () {
-    it("Encrypt", function() {
-        var options = {
-                IV: BOB_IV,
-                AAD: BOB_AAD,
-                key: BOB_SECRET_KEY,
-                data: MESSAGE
-            };
-        AeroGear.crypto.encrypt( function(cipherText) {
-            expect(cipherText).toEqual(CIPHERTEXT);
-        }, options ); 
-    });
-
     it("Encrypt/Decrypt", function() {
         var options = {
                 IV: BOB_IV,
@@ -80,6 +68,7 @@ describe('Symmetric encrytion with GCM', function () {
                 data: MESSAGE
             };
         AeroGear.crypto.encrypt( function(cipherText) {
+            options.data = cipherText;
             AeroGear.crypto.decrypt (function(plainText) {
                 expect(plainText).toEqual(MESSAGE);
             }, options );
