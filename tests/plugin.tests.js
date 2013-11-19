@@ -17,24 +17,24 @@
 
 describe('Plugin should be installed', function() {
     it("crypto plugin should exist", function() {
-        expect(AeroGear.crypto).toBeDefined();
-        expect(typeof AeroGear.crypto == 'object').toBe(true);
+        expect(AeroGear.Crypto).toBeDefined();
+        expect(typeof AeroGear.Crypto == 'function').toBe(true);
     });
 
     it("should contain a encrypt function", function() {
-        expect(AeroGear.crypto.encrypt).toBeDefined();
-        expect(typeof AeroGear.crypto.encrypt == 'function').toBe(true);
+        expect(AeroGear.Crypto().encrypt).toBeDefined();
+        expect(typeof AeroGear.Crypto.encrypt() == 'function').toBe(true);
     });
 
     it("should contain a decrypt function", function() {
-        expect(AeroGear.crypto.decrypt).toBeDefined();
-        expect(typeof AeroGear.crypto.decrypt == 'function').toBe(true);
+        expect(AeroGear.Crypto().decrypt).toBeDefined();
+        expect(typeof AeroGear.Crypto().decrypt == 'function').toBe(true);
     });
 });
 
 describe('Password based key derivation support (PBKDF2)', function () {
     it("Password validation with random salt provided", function () {
-        AeroGear.crypto.deriveKey( function(rawPassword) {
+        AeroGear.Crypto().deriveKey( function(rawPassword) {
             expect(rawPassword).toEqual(ENCRYPTED_PASSWORD);
         }, errorHandler, PASSWORD );
     });
@@ -66,10 +66,11 @@ describe('Symmetric encrytion with GCM', function () {
                 AAD: BOB_AAD,
                 key: BOB_SECRET_KEY,
                 data: MESSAGE
-            };
-        AeroGear.crypto.encrypt( function(cipherText) {
+            },
+            agCrypto = new AeroGear.Crypto();
+        agCrypto.encrypt( function(cipherText) {
             options.data = cipherText;
-            AeroGear.crypto.decrypt (function(plainText) {
+            agCrypto.decrypt (function(plainText) {
                 expect(plainText).toEqual(MESSAGE);
             }, options );
         }, options ); 
@@ -78,18 +79,19 @@ describe('Symmetric encrytion with GCM', function () {
 
 describe('Digital signatures', function () {
     it("Encrypt/Decrypt", function() {
-        AeroGear.crypto.KeyPair(function(keyPair) {
-            AeroGear.crypto.KeyPair(function(keyPairPandora) {
+        var agCrypto = new AeroGear.Crypto();
+        agCrypto.KeyPair(function(keyPair) {
+            agCrypto.KeyPair(function(keyPairPandora) {
                 var options = {
                     IV: BOB_IV,
                     AAD: BOB_AAD,
-                    key: new AeroGear.crypto.KeyPair(keyPair.privateKey, keyPairPandora.publicKey),
+                    key: new agCrypto.KeyPair(keyPair.privateKey, keyPairPandora.publicKey),
                     data: PLAIN_TEXT
                 };
-                AeroGear.crypto.encrypt(function (cipherText) {
-                    options.key = new AeroGear.crypto.KeyPair(keyPairPandora.privateKey, keyPair.publicKey);
+                agCrypto.encrypt(function (cipherText) {
+                    options.key = new agCrypto.KeyPair(keyPairPandora.privateKey, keyPair.publicKey);
                     options.data = cipherText;
-                    AeroGear.crypto.decrypt(function (plainText) {
+                    agCrypto.decrypt(function (plainText) {
                         expect(plainText).toEqual(PLAIN_TEXT);
                     }, options);
                 }, options);
