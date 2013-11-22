@@ -20,6 +20,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.jboss.aerogear.AeroGearCrypto;
 import org.jboss.aerogear.crypto.CryptoBox;
+import org.jboss.aerogear.crypto.Random;
 import org.jboss.aerogear.crypto.keys.KeyPair;
 import org.jboss.aerogear.crypto.keys.PrivateKey;
 import org.jboss.aerogear.crypto.password.Pbkdf2;
@@ -45,18 +46,38 @@ public class CryptoPlugin extends CordovaPlugin {
   @Override
   public boolean execute(final String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
     if ("deriveKey".equals(action)) {
-      JSONObject params = parseParameters(args);
-      final String password = (String) params.get("password");
+      final JSONObject params = parseParameters(args);
+      final String password = params.getString("password");
+      final byte[] salt = params.has("providedSalt") ? HEX.decode(params.getString("providedSalt")) : null;
 
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
           Pbkdf2 pbkdf2 = new Pbkdf2();
           try {
-            byte[] rawPassword = pbkdf2.encrypt(password);
-            callbackContext.success(HEX.encode(rawPassword));
+            byte[] encryptSalt = salt != null ? salt : new Random().randomBytes();
+            byte[] rawPassword = pbkdf2.encrypt(password, encryptSalt);
+
+            JSONObject result = new JSONObject();
+            try {
+              result.put("password", HEX.encode(rawPassword));
+              result.put("salt", HEX.encode(encryptSalt));
+            } catch (JSONException e) {
+              callbackContext.error(e.getMessage());
+            }
+            callbackContext.success(result);
           } catch (InvalidKeySpecException e) {
             callbackContext.error(e.getMessage());
           }
+        }
+      });
+    }
+
+    if ("getRandomValue".equals(action)) {
+      cordova.getThreadPool().execute(new Runnable() {
+        @Override
+        public void run() {
+          final byte[] bytes = new Random().randomBytes();
+          callbackContext.success(HEX.encode(bytes));
         }
       });
     }

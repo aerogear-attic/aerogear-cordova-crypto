@@ -18,9 +18,16 @@
 #import "CryptoPlugin.h"
 #import "AGPBKDF2.h"
 #import "AGCryptoBox.h"
-
+#import "AGRandomGenerator.h"
 
 @implementation CryptoPlugin
+
+- (void)getRandomValue:(CDVInvokedUrlCommand *)command {
+    NSData * data = [AGRandomGenerator randomBytes];
+    NSString *value = [self convertDataToString:data];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:value];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
 
 - (void)deriveKey:(CDVInvokedUrlCommand *)command {
     NSMutableDictionary *options = [self parseParameters:command];
