@@ -16,54 +16,79 @@ AeroGear.crypto.deriveKey( function(password) {
     * Encryption:
 
 ```js
-AeroGear.crypto.deriveKey( function(rawPassword) {
-    var options = {
-            IV: BOB_IV,
-            AAD: BOB_AAD,
-            key: rawPassword,
-            data: "My Bonnie lies over the ocean, my Bonnie lies over the sea"
-        };
-    AeroGear.crypto.encrypt( function(cipherText) {
-        console.log(cipherText)
-    }, options ); 
-}, errorHandler, 'myPassword' );
+$.when(agCrypto.deriveKey('my password'), agCrypto.getRandomValue())
+    .then(function (rawPassword, IV) {
+            var options = {
+                IV: IV[0],
+                key: rawPassword[0],
+                data: "My Bonnie lies over the ocean, my Bonnie lies over the sea"
+            };
+            agCrypto.encrypt(options).then(function (cipherText) {
+                    console.log(cipherText);
+                }
+            });
+        },
+        function (error) {
+            console.log('error ' + error);
+        });
+        
+// or with regular callbacks
 
+agCrypto.deriveKey('my password', null, {
+    success: function (rawPassword) {
+        agCrypto.getRandomValue({
+            success: function (generatedIV) {
+                var options = {
+                    IV: generatedIV,
+                    key: rawPassword,
+                    data: "My Bonnie lies over the ocean, my Bonnie lies over the sea"
+                };
+                agCrypto.encrypt(options {
+                    success: function (cipherText) {
+                        console.log(cipherText);
+                    }
+                });
+            }
+        });
+    }
+});
 ```
 
     * Decryption:
 
 ```js
 var options = {
-        IV: BOB_IV,
-        AAD: BOB_AAD,
-        key: rawPassword,
-        data: cipherText
-    };
-AeroGear.crypto.decrypt( function(text) {
-    console.log(text)
-}, options ); 
+    IV: "69696ee955b62b73cd62bda875fc73d68219e0036b7a0b37",
+    AAD: "feedfacedeadbeeffeedfacedeadbeefabaddad2",
+    key: rawPassword,
+    data: cipherText
+};
+AeroGear.Crypto().decrypt(options, {
+    success: function (text) {
+        console.log(text);
+    }
+});
 ```
 
 * Asymmetric encryption support (ECC) / iOS not supported
 
 ```js
-AeroGear.crypto.KeyPair(function(keyPair) {
-    AeroGear.crypto.KeyPair(function(keyPairPandora) {
+$.when(agCrypto.KeyPair(), agCrypto.KeyPair(), agCrypto.getRandomValue())
+    .then(function (keyPair, keyPairPandora, IV) {
         var options = {
-            IV: BOB_IV,
-            AAD: BOB_AAD,
-            key: new AeroGear.crypto.KeyPair(keyPair.privateKey, keyPairPandora.publicKey),
+            IV: IV[0],
+            key: new agCrypto.KeyPair(keyPair[0].privateKey, keyPairPandora[0].publicKey),
             data: "My bonnie lies over the ocean"
         };
-        AeroGear.crypto.encrypt(function (cipherText) {
-            options.key = new AeroGear.crypto.KeyPair(keyPairPandora.privateKey, keyPair.publicKey);
+        agCrypto.encrypt(options).then(function (cipherText) {
+            options.key = new agCrypto.KeyPair(keyPairPandora[0].privateKey, keyPair[0].publicKey);
             options.data = cipherText;
-            AeroGear.crypto.decrypt(function (plainText) {
-                console.log(plainText);
-            }, options);
-        }, options);
+            agCrypto.decrypt(options).then(function (plainText) {
+                console.log('plainText ' + plainText);
+            });
+        });
+
     });
-});
 
 ```
 
