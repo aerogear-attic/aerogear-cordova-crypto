@@ -23,6 +23,7 @@
 
 }
 
+- (void)getRandomValue:(CDVInvokedUrlCommand*)command;
 - (void)deriveKey:(CDVInvokedUrlCommand*)command;
 - (void)encrypt:(CDVInvokedUrlCommand*)command;
 - (void)decrypt:(CDVInvokedUrlCommand*)command;

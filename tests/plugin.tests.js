@@ -23,7 +23,7 @@ describe('Plugin should be installed', function() {
 
     it("should contain a encrypt function", function() {
         expect(AeroGear.Crypto().encrypt).toBeDefined();
-        expect(typeof AeroGear.Crypto.encrypt() == 'function').toBe(true);
+        expect(typeof AeroGear.Crypto().encrypt == 'function').toBe(true);
     });
 
     it("should contain a decrypt function", function() {
