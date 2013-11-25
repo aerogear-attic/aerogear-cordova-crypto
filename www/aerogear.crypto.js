@@ -174,7 +174,7 @@ AeroGear.Crypto = function () {
             deferred.resolve(result, "success", param.success);
         };
 
-        exec(param.success, null, 'crypto', 'encrypt', [options]);
+        exec(success, null, 'crypto', 'encrypt', [options]);
 
         deferred.always(this.always);
         return deferred.promise();
@@ -208,7 +208,7 @@ AeroGear.Crypto = function () {
             deferred.resolve(result, "success", param.success);
         };
 
-        exec(param.success, null, 'crypto', 'decrypt', [options]);
+        exec(success, null, 'crypto', 'decrypt', [options]);
 
         deferred.always(this.always);
         return deferred.promise();
@@ -216,7 +216,7 @@ AeroGear.Crypto = function () {
 
     this.KeyPair = function (privateKey, publicKey) {
 
-        if (typeof privateKey == "function") {
+        if (privateKey === undefined || typeof privateKey == "function") {
             var success,
                 deferred = jQuery.Deferred();
 
