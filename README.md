@@ -6,9 +6,12 @@ This plugin allows you to use the native aerogear crypto libs for your cordova a
 * Password based key derivation support (PBKDF2)
 
 ```js
-AeroGear.crypto.deriveKey( function(password) {
-    console.log(password);    
-}, errorHandler, PASSWORD );        
+var agCrypto = new AeroGear.Crypto();
+agCrypto.deriveKey('my password', null, {
+    success: function (rawPassword) {
+        console.log(rawPassword);
+    }
+});
 ```
 
 * Symmetric encryption support (GCM)
