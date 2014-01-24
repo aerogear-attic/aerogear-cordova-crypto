@@ -20,7 +20,6 @@ var AeroGear = AeroGear || {};
  AeroGear.Crypto is used to provide various crypto methods
  @status Experimental
  @class
- @augments AeroGear.Core
  @returns {object} agCrypto - The created Crypto Object
  @example
  // Create a AeroGear.Crypto Object
@@ -214,6 +213,21 @@ AeroGear.Crypto = function () {
         return deferred.promise();
     };
 
+    /**
+     KeyPair is used to hold public and private key
+     @status Experimental
+     @class
+     @param {String|Function} privateKey - the private key
+     @param {String} [publicKey] - the private key
+     @returns {object} keyPair - the holder
+     @example
+         // Create a AeroGear.KeyPair Object
+         var agCrypto = AeroGear.Crypto();
+         var keyPair = new agCrypto.KeyPair(privateKey, publicKey);
+
+         //or generate a keyPair
+         agCrypto.KeyPair(function(result) { ... });
+     */
     this.KeyPair = function (privateKey, publicKey) {
 
         if (privateKey === undefined || typeof privateKey == "function") {
