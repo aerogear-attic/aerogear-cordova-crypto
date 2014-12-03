@@ -52,7 +52,17 @@
     <source-file src="src/ios/CryptoPlugin.m"/>
     <header-file src="src/ios/CryptoPlugin.h"/>
 
-    <asset src="src/ios/Podfile" target="../../Podfile" />
+    <header-file src="src/ios/0.1.0/AeroGearCrypto.h"/>
+    <header-file src="src/ios/0.1.0/AGCryptoBox.h"/>
+    <source-file src="src/ios/0.1.0/AGCryptoBox.m"/>
+    <header-file src="src/ios/0.1.0/AGPBKDF2.h"/>
+    <source-file src="src/ios/0.1.0/AGPBKDF2.m"/>
+    <header-file src="src/ios/0.1.0/AGRandomGenerator.h"/>
+    <source-file src="src/ios/0.1.0/AGRandomGenerator.m"/>
+    <header-file src="src/ios/0.1.0/AGSymmetricCryptoEngine.h"/>
+    <source-file src="src/ios/0.1.0/AGSymmetricCryptoEngine.m"/>
+    
+    <framework src="Security.framework"/>
   </platform>
 
 </plugin>
