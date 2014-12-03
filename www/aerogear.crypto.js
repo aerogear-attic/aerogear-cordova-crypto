@@ -119,12 +119,12 @@ AeroGear.Crypto = function () {
         param = param || {};
 
         error = function (error) {
-            deferred.reject(error, "error", param.error);
+            deferred.reject(error);
         };
 
         success = function (result) {
             salt = result.salt;
-            deferred.resolve(result.password, "success", param.success);
+            deferred.resolve(result.password);
         };
 
         if (providedSalt) {
@@ -133,7 +133,7 @@ AeroGear.Crypto = function () {
 
         exec(success, error, 'crypto', 'deriveKey', [options]);
 
-        return deferred.promise;
+        return deferred.promise.then(param.success, param.error);
     };
 
     // Method to provide symmetric encryption with GCM by default
@@ -161,12 +161,12 @@ AeroGear.Crypto = function () {
         param = param || {};
 
         success = function (result) {
-            deferred.resolve(result, "success", param.success);
+            deferred.resolve(result);
         };
 
         exec(success, null, 'crypto', 'encrypt', [options]);
 
-        return deferred.promise;
+        return deferred.promise.then(param.success);
     };
 
     // Method to provide symmetric decryption with GCM by default
@@ -194,12 +194,12 @@ AeroGear.Crypto = function () {
         param = param || {};
 
         success = function (result) {
-            deferred.resolve(result, "success", param.success);
+            deferred.resolve(result);
         };
 
         exec(success, null, 'crypto', 'decrypt', [options]);
 
-        return deferred.promise;
+        return deferred.promise.then(param.success);
     };
 
     /**
@@ -224,11 +224,11 @@ AeroGear.Crypto = function () {
                 deferred = Q.defer();
 
             success = function (result) {
-                deferred.resolve(result, "success", privateKey);
+                deferred.resolve(result);
             };
 
             exec(success, null, 'crypto', 'generateKeyPair', []);
-            return deferred.promise;
+            return deferred.promise.then(privateKey);
         } else if (privateKey && publicKey) {
             this.privateKey = privateKey;
             this.publicKey = publicKey;
