@@ -27,8 +27,7 @@ $.when(agCrypto.deriveKey('my password'), agCrypto.getRandomValue())
                 data: "My Bonnie lies over the ocean, my Bonnie lies over the sea"
             };
             agCrypto.encrypt(options).then(function (cipherText) {
-                    console.log(cipherText);
-                }
+                console.log(cipherText);
             });
         },
         function (error) {
@@ -46,7 +45,7 @@ agCrypto.deriveKey('my password', null, {
                     key: rawPassword,
                     data: "My Bonnie lies over the ocean, my Bonnie lies over the sea"
                 };
-                agCrypto.encrypt(options {
+                agCrypto.encrypt(options, {
                     success: function (cipherText) {
                         console.log(cipherText);
                     }
@@ -57,7 +56,7 @@ agCrypto.deriveKey('my password', null, {
 });
 ```
 
-    * Decryption:
+  * Decryption:
 
 ```js
 var options = {

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 var exec = require('cordova/exec');
+var Q = require('./q');
 
 var AeroGear = AeroGear || {};
 /**
@@ -74,17 +75,6 @@ AeroGear.Crypto = function () {
         return publicKey;
     };
 
-    /**
-     A Function for a jQuery.Deferred to always call
-     @private
-     @augments base
-     */
-    this.always = function (value, status, callback) {
-        if (callback) {
-            callback.call(this, value, status);
-        }
-    };
-
     // Method to retrieve random values
     /**
      Returns the random value
@@ -96,15 +86,17 @@ AeroGear.Crypto = function () {
      */
     this.getRandomValue = function (param) {
         var success,
-            deferred = jQuery.Deferred();
+            deferred = Q.defer();
+      
+        param = param || {};
+      
         success = function (result) {
             deferred.resolve(result, "success", param.success);
         }
 
         exec(success, null, 'crypto', 'getRandomValue', []);
 
-        deferred.always(this.always);
-        return deferred.promise();
+        return deferred.promise;
     }; 
     // Method to provide key derivation with PBKDF2
     /**
@@ -119,7 +111,7 @@ AeroGear.Crypto = function () {
      */
     this.deriveKey = function (password, providedSalt, param) {
         var success, error,
-            deferred = jQuery.Deferred(),
+            deferred = Q.defer(),
             options = {
                 password: password
             };
@@ -141,8 +133,7 @@ AeroGear.Crypto = function () {
 
         exec(success, error, 'crypto', 'deriveKey', [options]);
 
-        deferred.always(this.always);
-        return deferred.promise();
+        return deferred.promise;
     };
 
     // Method to provide symmetric encryption with GCM by default
@@ -165,7 +156,7 @@ AeroGear.Crypto = function () {
      */
     this.encrypt = function (options, param) {
         var success,
-            deferred = jQuery.Deferred();
+            deferred = Q.defer();
 
         param = param || {};
 
@@ -175,8 +166,7 @@ AeroGear.Crypto = function () {
 
         exec(success, null, 'crypto', 'encrypt', [options]);
 
-        deferred.always(this.always);
-        return deferred.promise();
+        return deferred.promise;
     };
 
     // Method to provide symmetric decryption with GCM by default
@@ -199,7 +189,7 @@ AeroGear.Crypto = function () {
      */
     this.decrypt = function (options, param) {
         var success,
-            deferred = jQuery.Deferred();
+            deferred = Q.defer();
 
         param = param || {};
 
@@ -209,8 +199,7 @@ AeroGear.Crypto = function () {
 
         exec(success, null, 'crypto', 'decrypt', [options]);
 
-        deferred.always(this.always);
-        return deferred.promise();
+        return deferred.promise;
     };
 
     /**
@@ -232,15 +221,14 @@ AeroGear.Crypto = function () {
 
         if (privateKey === undefined || typeof privateKey == "function") {
             var success,
-                deferred = jQuery.Deferred();
+                deferred = Q.defer();
 
             success = function (result) {
                 deferred.resolve(result, "success", privateKey);
             };
 
             exec(success, null, 'crypto', 'generateKeyPair', []);
-            deferred.always(this.always);
-            return deferred.promise();
+            return deferred.promise;
         } else if (privateKey && publicKey) {
             this.privateKey = privateKey;
             this.publicKey = publicKey;

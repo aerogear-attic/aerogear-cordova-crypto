@@ -21,8 +21,8 @@
     <clobbers target="AeroGear"/>
   </js-module>
     
-  <js-module src="www/jquery-1.10.2.min.js" name="jQuery">
-    <clobbers target="cordova.plugins.jquery"/>
+  <js-module src="www/q.js" name="q">
+    <clobbers target="cordova.plugins.q"/>
   </js-module>    
 
   <!-- android -->
