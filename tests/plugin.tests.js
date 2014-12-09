@@ -42,16 +42,16 @@ describe('Password based key derivation support (PBKDF2)', function () {
 
 describe('Password based encrytion with GCM', function () {
     it("Encrypt/Decrypt password", function() {
-        AeroGear.crypto.deriveKey( function(rawPassword) {
+        AeroGear.Crypto().deriveKey(function (rawPassword) {
             var options = {
                     IV: BOB_IV,
                     AAD: BOB_AAD,
                     key: rawPassword,
                     data: PLAIN_TEXT
                 };
-            AeroGear.crypto.encrypt( function(cipherText) {
+            AeroGear.Crypto().encrypt(function (cipherText) {
                 options.data = cipherText;
-                AeroGear.crypto.decrypt (function(plainText) {
+                AeroGear.Crypto().decrypt(function (plainText) {
                     expect(plainText).toEqual(PLAIN_TEXT);
                 }, options );
             }, options ); 
@@ -96,6 +96,26 @@ describe('Digital signatures', function () {
                     }, options);
                 }, options);
             });
+        });
+    });
+});
+
+describe('Promise test', function () {
+    it("Encrypt/Decrypt", function() {
+        var agCrypto = new AeroGear.Crypto();
+        Promise.all([agCrypto.deriveKey('my password'), agCrypto.getRandomValue()])
+            .then(function (rawPassword, IV) {
+                var options = {
+                    IV: IV[0],
+                    key: rawPassword[0],
+                    data: "My Bonnie lies over the ocean, my Bonnie lies over the sea"
+                };
+                agCrypto.encrypt(options).then(function (cipherText) {
+                    console.log(cipherText);
+                });
+        },
+        function (error) {
+            console.log('error ' + error);
         });
     });
 });
