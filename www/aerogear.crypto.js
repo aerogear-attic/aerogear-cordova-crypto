@@ -28,65 +28,54 @@ var AeroGear = AeroGear || {};
  */
 AeroGear.Crypto = function () {
 
-    // Allow instantiation without using new
-    if (!(this instanceof AeroGear.Crypto)) {
-        return new AeroGear.Crypto();
-    }
+  // Allow instantiation without using new
+  if (!(this instanceof AeroGear.Crypto)) {
+    return new AeroGear.Crypto();
+  }
 
-    // Local Variables
-    var privateKey, publicKey, IV, salt;
+  // Local Variables
+  var privateKey, publicKey, IV, salt;
 
-    /**
+  /**
      Returns the value of the salt var
      @private
      @augments Crypto
      @returns {Object}
      */
-    this.getSalt = function () {
-        return salt;
-    };
-    /**
+  this.getSalt = function () {
+    return salt;
+  };
+  /**
      Returns the value of the IV var
      @private
      @augments Crypto
      @returns {Object}
      */
-    this.getIV = function () {
-        return IV;
-    };
-    /**
+  this.getIV = function () {
+    return IV;
+  };
+  /**
      Returns the value of the private key var
      @private
      @augments Crypto
      @returns {Object}
      */
-    this.getPrivateKey = function () {
-        return privateKey;
-    };
+  this.getPrivateKey = function () {
+    return privateKey;
+  };
 
-    /**
+  /**
      Returns the value of the public key var
      @private
      @augments Crypto
      @returns {Object}
      */
-    this.getPublicKey = function () {
-        return publicKey;
-    };
+  this.getPublicKey = function () {
+    return publicKey;
+  };
 
-    /**
-     A Function for a jQuery.Deferred to always call
-     @private
-     @augments base
-     */
-    this.always = function (value, status, callback) {
-        if (callback) {
-            callback.call(this, value, status);
-        }
-    };
-
-    // Method to retrieve random values
-    /**
+  // Method to retrieve random values
+  /**
      Returns the random value
      @status Experimental
      @return {Number} - the random value
@@ -94,20 +83,20 @@ AeroGear.Crypto = function () {
      //Random number generator:
      AeroGear.Crypto().getRandomValue();
      */
-    this.getRandomValue = function (param) {
-        var success,
-            deferred = jQuery.Deferred();
-        success = function (result) {
-            deferred.resolve(result, "success", param.success);
-        }
+  this.getRandomValue = function (param) {
+    return new Promise(function (resolve, reject) {
+      var success;
+      param = param || {};
 
-        exec(success, null, 'crypto', 'getRandomValue', []);
+      success = function (result) {
+        resolve(result, "success", param.success);
+      };
 
-        deferred.always(this.always);
-        return deferred.promise();
-    }; 
-    // Method to provide key derivation with PBKDF2
-    /**
+      exec(success, null, 'crypto', 'getRandomValue', []);
+    });
+  };
+  // Method to provide key derivation with PBKDF2
+  /**
      Returns the value of the key
      @status Experimental
      @param {String} password - master password
@@ -117,36 +106,34 @@ AeroGear.Crypto = function () {
      //Password encryption:
      AeroGear.Crypto().deriveKey( 'mypassword', 42 );
      */
-    this.deriveKey = function (password, providedSalt, param) {
-        var success, error,
-            deferred = jQuery.Deferred(),
-            options = {
-                password: password
-            };
-
-        param = param || {};
-
-        error = function (error) {
-            deferred.reject(error, "error", param.error);
+  this.deriveKey = function (password, providedSalt, param) {
+    param = param || {};
+    return new Promise(function (resolve, reject) {
+      var success, error,
+        options = {
+          password: password
         };
 
-        success = function (result) {
-            salt = result.salt;
-            deferred.resolve(result.password, "success", param.success);
-        };
+      error = function (error) {
+        reject(error);
+      };
 
-        if (providedSalt) {
-            options.providedSalt = providedSalt;
-        }
+      success = function (result) {
+        salt = result.salt;
+        resolve(result.password);
+      };
 
-        exec(success, error, 'crypto', 'deriveKey', [options]);
+      if (providedSalt) {
+        options.providedSalt = providedSalt;
+      }
 
-        deferred.always(this.always);
-        return deferred.promise();
-    };
+      exec(success, error, 'crypto', 'deriveKey', [options]);
 
-    // Method to provide symmetric encryption with GCM by default
-    /**
+    }).then(param.success, param.error);
+  };
+
+  // Method to provide symmetric encryption with GCM by default
+  /**
      Encrypts in GCM mode
      @status Experimental
      @param {Object} options - includes IV (Initialization Vector), AAD
@@ -163,24 +150,20 @@ AeroGear.Crypto = function () {
         };
      AeroGear.Crypto().encrypt( options );
      */
-    this.encrypt = function (options, param) {
-        var success,
-            deferred = jQuery.Deferred();
+  this.encrypt = function (options, param) {
+    param = param || {};
+    return new Promise(function (resolve, reject) {
+      var success = function (result) {
+        resolve(result);
+      };
 
-        param = param || {};
+      exec(success, null, 'crypto', 'encrypt', [options]);
 
-        success = function (result) {
-            deferred.resolve(result, "success", param.success);
-        };
+    }).then(param.success);
+  };
 
-        exec(success, null, 'crypto', 'encrypt', [options]);
-
-        deferred.always(this.always);
-        return deferred.promise();
-    };
-
-    // Method to provide symmetric decryption with GCM by default
-    /**
+  // Method to provide symmetric decryption with GCM by default
+  /**
      Decrypts in GCM mode
      @status Experimental
      @param {Object} options - includes IV (Initialization Vector), AAD
@@ -197,23 +180,20 @@ AeroGear.Crypto = function () {
         };
      AeroGear.Crypto().decrypt( options );
      */
-    this.decrypt = function (options, param) {
-        var success,
-            deferred = jQuery.Deferred();
+  this.decrypt = function (options, param) {
+    param = param || {};
+    return new Promise(function (resolve, reject) {
 
-        param = param || {};
+      var success = function (result) {
+        resolve(result);
+      };
 
-        success = function (result) {
-            deferred.resolve(result, "success", param.success);
-        };
+      exec(success, null, 'crypto', 'decrypt', [options]);
 
-        exec(success, null, 'crypto', 'decrypt', [options]);
+    }).then(param.success);
+  };
 
-        deferred.always(this.always);
-        return deferred.promise();
-    };
-
-    /**
+  /**
      KeyPair is used to hold public and private key
      @status Experimental
      @class
@@ -228,24 +208,21 @@ AeroGear.Crypto = function () {
          //or generate a keyPair
          agCrypto.KeyPair(function(result) { ... });
      */
-    this.KeyPair = function (privateKey, publicKey) {
+  this.KeyPair = function (privateKey, publicKey) {
 
-        if (privateKey === undefined || typeof privateKey == "function") {
-            var success,
-                deferred = jQuery.Deferred();
+    if (privateKey === undefined || typeof privateKey == "function") {
+      return new Promise(function (resolve, reject) {
+        var success = function (result) {
+          resolve(result);
+        };
 
-            success = function (result) {
-                deferred.resolve(result, "success", privateKey);
-            };
-
-            exec(success, null, 'crypto', 'generateKeyPair', []);
-            deferred.always(this.always);
-            return deferred.promise();
-        } else if (privateKey && publicKey) {
-            this.privateKey = privateKey;
-            this.publicKey = publicKey;
-        }
-    };
+        exec(success, null, 'crypto', 'generateKeyPair', []);
+      }).then(privateKey);
+    } else if (privateKey && publicKey) {
+      this.privateKey = privateKey;
+      this.publicKey = publicKey;
+    }
+  };
 };
 
 module.exports = AeroGear;

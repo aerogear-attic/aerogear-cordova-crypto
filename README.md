@@ -19,7 +19,7 @@ agCrypto.deriveKey('my password', null, {
     * Encryption:
 
 ```js
-$.when(agCrypto.deriveKey('my password'), agCrypto.getRandomValue())
+Promise.all([agCrypto.deriveKey('my password'), agCrypto.getRandomValue()])
     .then(function (rawPassword, IV) {
             var options = {
                 IV: IV[0],
@@ -27,8 +27,7 @@ $.when(agCrypto.deriveKey('my password'), agCrypto.getRandomValue())
                 data: "My Bonnie lies over the ocean, my Bonnie lies over the sea"
             };
             agCrypto.encrypt(options).then(function (cipherText) {
-                    console.log(cipherText);
-                }
+                console.log(cipherText);
             });
         },
         function (error) {
@@ -46,7 +45,7 @@ agCrypto.deriveKey('my password', null, {
                     key: rawPassword,
                     data: "My Bonnie lies over the ocean, my Bonnie lies over the sea"
                 };
-                agCrypto.encrypt(options {
+                agCrypto.encrypt(options, {
                     success: function (cipherText) {
                         console.log(cipherText);
                     }
@@ -57,7 +56,7 @@ agCrypto.deriveKey('my password', null, {
 });
 ```
 
-    * Decryption:
+  * Decryption:
 
 ```js
 var options = {
@@ -76,7 +75,7 @@ AeroGear.Crypto().decrypt(options, {
 * Asymmetric encryption support (ECC) / iOS not supported
 
 ```js
-$.when(agCrypto.KeyPair(), agCrypto.KeyPair(), agCrypto.getRandomValue())
+Promise.all([agCrypto.KeyPair(), agCrypto.KeyPair(), agCrypto.getRandomValue()])
     .then(function (keyPair, keyPairPandora, IV) {
         var options = {
             IV: IV[0],

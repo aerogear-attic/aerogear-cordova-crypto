@@ -17,14 +17,11 @@
     <engine name="cordova" version=">=3.4.0"/>
   </engines>
 
+  <dependency id="com.vladstirbu.cordova.promise" url="https://github.com/vstirbu/PromisesPlugin.git"/>
   <js-module src="www/aerogear.crypto.js" name="AeroGear">
     <clobbers target="AeroGear"/>
   </js-module>
     
-  <js-module src="www/jquery-1.10.2.min.js" name="jQuery">
-    <clobbers target="cordova.plugins.jquery"/>
-  </js-module>    
-
   <!-- android -->
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
