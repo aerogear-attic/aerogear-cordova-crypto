@@ -105,17 +105,24 @@ Promise.all([agCrypto.KeyPair(), agCrypto.KeyPair(), agCrypto.getRandomValue()])
 
 ## Installing
 
+```shell
+cordova plugin add org.jboss.aerogear.cordova.crypto
 ```
-cordova create <PATH> [ID] [NAME]
-cd <PATH>
-# only ios and android are supported
-cordova platform add <PLATFORM>
-cordova plugin install https://github.com/edewit/aerogear-crypto-cordova
 
-# after adding the plugin for ios you'll have to run:
+_For now, only iOS and Android are supported_
+
+### iOS
+
+```shell
+cordova platform add ios
 cd platforms/ios
 pod install
+```
 
+### Android 
+
+```shell
+cordova platform add android
 ```
 
 ## Documentation
