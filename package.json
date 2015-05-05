@@ -1,7 +1,7 @@
 {
   "name": "aerogear-cordova-crypto",
   "version": "0.0.1",
-  "description": "This plugin mimics the api of the aerogear-js crypto functions as close as possible, but delegates the work to the native implementations\n  ",
+  "description": "This plugin mimics the API of the aerogear-js crypto functions as close as possible, but delegates the work to the native implementations\n  ",
   "cordova": {
     "id": "org.jboss.aerogear.cordova.crypto",
     "platforms": [
