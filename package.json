@@ -1,0 +1,36 @@
+{
+  "name": "aerogear-cordova-crypto",
+  "version": "0.0.1",
+  "description": "This plugin mimics the API of the aerogear-js crypto functions as close as possible, but delegates the work to the native implementations\n  ",
+  "cordova": {
+    "id": "org.jboss.aerogear.cordova.crypto",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aerogear/aerogear-cordova-crypto.git"
+  },
+  "keywords": [
+    "cordova",
+    "aerogear",
+    "crypto",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.4.0"
+    }
+  ],
+  "author": "edewit",
+  "license": "Apache2",
+  "bugs": {
+    "url": "https://issues.jboss.org/browse/AGCORDOVA"
+  },
+  "homepage": "https://aerogear.org/docs/specs/aerogear-cordova/"
+}
