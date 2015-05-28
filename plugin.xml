@@ -13,16 +13,17 @@
 
   <license>MIT</license>
   <keywords>cordova,aerogear,crypto</keywords>
-  
+
   <engines>
     <engine name="cordova" version=">=3.4.0"/>
+    <engine name="cordova-android" version=">=3.7.2" />
   </engines>
 
   <dependency id="com.vladstirbu.cordova.promise" url="https://github.com/vstirbu/PromisesPlugin.git"/>
   <js-module src="www/aerogear.crypto.js" name="AeroGear">
     <clobbers target="AeroGear"/>
   </js-module>
-    
+
   <!-- android -->
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
@@ -32,7 +33,7 @@
     </config-file>
 
     <source-file src="src/android/org/jboss/aerogear/cordova/crypto/CryptoPlugin.java" target-dir="src/org/jboss/aerogear/cordova/crypto/"/>
-    
+
     <source-file src="src/android/libs/aerogear-crypto-0.1.0-SNAPSHOT.jar" target-dir="libs"/>
     <source-file src="src/android/libs/sc-light-jdk15on-1.47.0.3.jar" target-dir="libs"/>
     <source-file src="src/android/libs/scprov-jdk15on-1.47.0.3.jar" target-dir="libs"/>
@@ -59,7 +60,7 @@
     <source-file src="src/ios/0.1.0/AGRandomGenerator.m"/>
     <header-file src="src/ios/0.1.0/AGSymmetricCryptoEngine.h"/>
     <source-file src="src/ios/0.1.0/AGSymmetricCryptoEngine.m"/>
-    
+
     <framework src="Security.framework"/>
   </platform>
 
