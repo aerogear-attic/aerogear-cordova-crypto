@@ -12,7 +12,7 @@ AeroGear Crypto Plugin
 
 This plugin allows you to use the native aerogear crypto libs for your cordova apps. While staying close to the aerogear-js api.
 
-* Password based key derivation support (PBKDF2)
+* Password based key derivation support
 
 ```js
 var agCrypto = new AeroGear.Crypto();
@@ -23,7 +23,7 @@ agCrypto.deriveKey('my password', null, {
 });
 ```
 
-* Symmetric encryption support (GCM)
+* Symmetric encryption support
 
     * Encryption:
 
@@ -81,7 +81,7 @@ AeroGear.Crypto().decrypt(options, {
 });
 ```
 
-* Asymmetric encryption support (ECC) / iOS not supported
+* Asymmetric encryption support / iOS not supported
 
 ```js
 Promise.all([agCrypto.KeyPair(), agCrypto.KeyPair(), agCrypto.getRandomValue()])
