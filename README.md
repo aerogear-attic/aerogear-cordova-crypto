@@ -131,8 +131,8 @@ cordova platform add android
 1. Add the plugin and the tests:
 
   ```bash
-  cordova plugin add https://github.com/aerogear/aerogear-cordova-push.git
-  cordova plugin add https://github.com/aerogear/aerogear-cordova-push.git#:/tests
+  cordova plugin add https://github.com/aerogear/aerogear-cordova-crypto.git
+  cordova plugin add https://github.com/aerogear/aerogear-cordova-crypto.git#:/tests
   ```
 
 1. Add this plugin:
