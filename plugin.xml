@@ -34,10 +34,7 @@
 
     <source-file src="src/android/org/jboss/aerogear/cordova/crypto/CryptoPlugin.java" target-dir="src/org/jboss/aerogear/cordova/crypto/"/>
 
-    <source-file src="src/android/libs/aerogear-crypto-0.1.0-SNAPSHOT.jar" target-dir="libs"/>
-    <source-file src="src/android/libs/sc-light-jdk15on-1.47.0.3.jar" target-dir="libs"/>
-    <source-file src="src/android/libs/scprov-jdk15on-1.47.0.3.jar" target-dir="libs"/>
-    <source-file src="src/android/libs/bcprov-jdk15on-1.48.jar" target-dir="libs"/>
+    <source-file src="src/android/libs/aerogear-crypto-0.1.5-android.jar" target-dir="libs"/>
   </platform>
 
   <!-- ios -->
