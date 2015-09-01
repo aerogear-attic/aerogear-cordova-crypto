@@ -20,7 +20,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.jboss.aerogear.AeroGearCrypto;
 import org.jboss.aerogear.crypto.CryptoBox;
-import org.jboss.aerogear.crypto.Random;
+import org.jboss.aerogear.crypto.RandomUtils;
 import org.jboss.aerogear.crypto.keys.KeyPair;
 import org.jboss.aerogear.crypto.keys.PrivateKey;
 import org.jboss.aerogear.crypto.password.Pbkdf2;
@@ -52,9 +52,9 @@ public class CryptoPlugin extends CordovaPlugin {
 
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
-          Pbkdf2 pbkdf2 = new Pbkdf2();
+          Pbkdf2 pbkdf2 = AeroGearCrypto.pbkdf2();
           try {
-            byte[] encryptSalt = salt != null ? salt : new Random().randomBytes();
+            byte[] encryptSalt = salt != null ? salt : RandomUtils.randomBytes();
             byte[] rawPassword = pbkdf2.encrypt(password, encryptSalt);
 
             JSONObject result = new JSONObject();
@@ -76,7 +76,7 @@ public class CryptoPlugin extends CordovaPlugin {
       cordova.getThreadPool().execute(new Runnable() {
         @Override
         public void run() {
-          final byte[] bytes = new Random().randomBytes();
+          final byte[] bytes = RandomUtils.randomBytes();
           callbackContext.success(HEX.encode(bytes));
         }
       });
