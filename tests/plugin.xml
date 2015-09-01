@@ -1,0 +1,7 @@
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" id="aerogear-cordova-crypto-tests" version="0.0.3">
+    <name>AeroGear Crypto Tests</name>
+    <license>Apache License</license>
+
+    <js-module src="tests.js" name="tests">
+    </js-module>
+</plugin>
