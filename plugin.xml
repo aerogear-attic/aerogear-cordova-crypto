@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="org.jboss.aerogear.cordova.crypto"
-        version="0.0.2">
+        id="aerogear-cordova-crypto"
+        version="0.0.3">
 
   <name>AeroGear Crypto Plugin</name>
 
