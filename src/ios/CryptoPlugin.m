@@ -32,14 +32,14 @@
 - (void)deriveKey:(CDVInvokedUrlCommand *)command {
     NSMutableDictionary *options = [self parseParameters:command];
     NSString *password = [options objectForKey:@"password"];
-    NSData *salt = [options objectForKey:@"salt"] != nil ? [self convertStringToData:[options objectForKey:@"salt"]] : [AGRandomGenerator randomBytes];
+    NSData *salt = [options objectForKey:@"providedSalt"] != nil ? [self convertStringToData:[options objectForKey:@"providedSalt"]] : [AGRandomGenerator randomBytes];
 
     [self.commandDelegate runInBackground:^{
         AGPBKDF2 *agpbkdf2 = [[AGPBKDF2 alloc] init];
         NSData *rawPassword = [agpbkdf2 deriveKey:password salt:salt];
 
         NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-        [result setObject:[self convertDataToString:salt] forKey:@"salt"];
+        [result setObject:[self convertDataToString:salt] forKey:@"providedSalt"];
         [result setObject:[self convertDataToString:rawPassword] forKey:@"password"];
         
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
