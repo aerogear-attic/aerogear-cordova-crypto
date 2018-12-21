@@ -34,7 +34,7 @@
 
     <source-file src="src/android/org/jboss/aerogear/cordova/crypto/CryptoPlugin.java" target-dir="src/org/jboss/aerogear/cordova/crypto/"/>
 
-    <source-file src="src/android/libs/aerogear-crypto-0.1.5-android.jar" target-dir="libs"/>
+    <lib-file src="src/android/libs/aerogear-crypto-0.1.5-android.jar"></lib-file>
   </platform>
 
   <!-- ios -->
